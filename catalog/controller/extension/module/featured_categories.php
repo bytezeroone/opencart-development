@@ -26,11 +26,13 @@ class ControllerExtensionModuleFeaturedCategories extends Controller {
 						$image = $this->model_tool_image->resize('placeholder.png', $setting['width'], $setting['height']);
 					}
 
+					$description = (strlen($category_info['description']) > 150) ? substr($category_info['description'], 0, 150) . '...' : $category_info['description'];
+
 					$data['categories'][] = array(
 						'category_id'  => $category_info['category_id'],
 						'thumb'       => $image,
 						'name'        => $category_info['name'],
-						'description' => utf8_substr(strip_tags(html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_category_description_length')) . '..',
+						'description' => utf8_substr(strip_tags(html_entity_decode($description)), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_category_description_length')),
 						'href'        => $this->url->link('product/category', 'path=' . $category_info['category_id'])
 					);
 				}
